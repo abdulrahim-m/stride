@@ -10,7 +10,7 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
-  String get app_title => 'NoteCore';
+  String get app_title => 'Stride';
 
   @override
   String get shell_navBar_note_view => 'ملاحظات';
@@ -607,11 +607,11 @@ class AppLocalizationsAr extends AppLocalizations {
       'اكتب هنا للبحث. تتحدث القائمة أثناء الكتابة، ويرافقك نفس البحث بين الصفحات.';
 
   @override
-  String get guide_filters_title => 'المرشحات والوسوم';
+  String get guide_filters_title => 'المرشحات والوسوم (Filters & Tags)';
 
   @override
   String get guide_filters_body =>
-      'اضغط على زر المرشحات في نهاية حقل البحث لفتح لوحة المرشحات: صفّ القائمة بالوسوم وبالتاريخ. يعرض الرقم على الزر عدد المرشحات المفعّلة.';
+      'اضغط على زر المرشحات (Filters) في نهاية حقل البحث لفتح لوحة المرشحات: صفّ القائمة بالوسوم (Tags) وبالتاريخ. يعرض الرقم على الزر عدد المرشحات المفعّلة.';
 
   @override
   String get guide_refresh => 'اسحب للأسفل للتحديث.';
@@ -648,7 +648,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get guide_notes_select_body =>
-      'اضغط مطولًا على ملاحظة لتحديدها، ثم اضغط على ملاحظات أخرى لإضافتها. يتيح لك الشريط العلوي إضافة وسوم أو نقل الملاحظات المحددة إلى مجموعة أخرى أو حذفها.';
+      'اضغط مطولًا على ملاحظة لتحديدها، ثم اضغط على ملاحظات أخرى لإضافتها. يتيح لك الشريط العلوي إضافة وسوم (Tags) أو نقل الملاحظات المحددة إلى مجموعة أخرى أو حذفها.';
 
   @override
   String get guide_thoughts_intro_title => 'الأفكار';
@@ -683,7 +683,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get guide_thoughts_select_body =>
-      'اضغط مطولًا على قسم لتحديده. يتيح لك الشريط العلوي إعادة تسميته أو إضافة وسوم أو حذف الأقسام المحددة مع أفكارها.';
+      'اضغط مطولًا على قسم لتحديده. يتيح لك الشريط العلوي إعادة تسميته أو إضافة وسوم (Tags) أو حذف الأقسام المحددة مع أفكارها.';
 
   @override
   String get guide_tasks_intro_title => 'المهام';
@@ -701,7 +701,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get guide_tasks_filters_body =>
-      'اضغط على زر المرشحات في نهاية حقل البحث. إضافةً إلى الوسوم والتواريخ، تضم اللوحة مرشحات مخصصة للمهام.';
+      'اضغط على زر المرشحات (Filters) في نهاية حقل البحث. إضافةً إلى الوسوم (Tags) والتواريخ، تضم اللوحة مرشحات مخصصة للمهام.';
 
   @override
   String get guide_tasks_views_title => 'العروض';
@@ -743,7 +743,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get guide_checklists_create_body =>
-      'اضغط + وسمِّ القائمة. تُفتح فورًا لتضيف العناصر.';
+      'اضغط + وسم (Tag)ِّ القائمة. تُفتح فورًا لتضيف العناصر.';
 
   @override
   String get guide_checklists_completed_title => 'العناصر المكتملة';
@@ -764,7 +764,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get guide_checklists_select_body =>
-      'اضغط مطولًا على قائمة لتحديدها. يتيح لك الشريط العلوي إعادة تسميتها أو إضافة وسوم أو حذف القوائم المحددة مع عناصرها.';
+      'اضغط مطولًا على قائمة لتحديدها. يتيح لك الشريط العلوي إعادة تسميتها أو إضافة وسوم (Tags) أو حذف القوائم المحددة مع عناصرها.';
 
   @override
   String get guide_notes_manage_title => 'إدارة المجموعات';
