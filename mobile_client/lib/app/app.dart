@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       builder: (context, _) {
         final colors = settings.themeColors;
         return MaterialApp.router(
-          title: 'NoteCore',
+          title: 'Stride',
           theme: AppTheme.getLightTheme(colors),
           darkTheme: AppTheme.getDarkTheme(colors),
           themeMode: ThemeMode.system,
