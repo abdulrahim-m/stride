@@ -84,8 +84,8 @@ See "Requirements" and "Getting started" in the root README. Short version:
 
 ```bash
 cargo build && cargo test
-cd bindings && flutter_rust_bridge_codegen generate
-cd ../mobile_client && flutter pub get && flutter gen-l10n && flutter run
+flutter_rust_bridge_codegen generate
+cd mobile_client && flutter pub get && flutter gen-l10n && flutter run
 ```
 
 Use the codegen version **2.13.0**, matching the `flutter_rust_bridge` crate and Dart package. Mismatched versions are the #1 cause of baffling build errors.
@@ -94,7 +94,7 @@ Use the codegen version **2.13.0**, matching the `flutter_rust_bridge` crate and
 
 1. Implement the logic in `core` (with tests).
 2. Expose it in `bindings` (DTOs + methods on the API structs). Keep DTOs plain and small; map core models to DTOs in `bindings`, never leak core internals.
-3. From `bindings` run `flutter_rust_bridge_codegen generate`.
+3. From the root run `flutter_rust_bridge_codegen generate`.
 4. Fix Dart call sites; run `flutter analyze`.
 5. Commit the Rust change **and** the regenerated Dart files together, so the repo always builds.
 

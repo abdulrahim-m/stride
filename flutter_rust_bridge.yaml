@@ -4,6 +4,6 @@
 # Paths are relative to this file.
 
 rust_input: crate::api
-rust_root: .
-dart_root: ../mobile_client
-dart_output: ../mobile_client/lib/core/rust
+rust_root: bindings
+dart_root: mobile_client
+dart_output: mobile_client/lib/core/rust

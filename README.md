@@ -80,10 +80,9 @@ You need [Rust](https://rustup.rs), the [Flutter SDK](https://docs.flutter.dev/g
 ```bash
 cargo install flutter_rust_bridge_codegen --version 2.13.0
 
-cd bindings
 flutter_rust_bridge_codegen generate     # generate the Dart bindings 
 
-cd ../mobile_client
+cd mobile_client
 flutter pub get
 flutter gen-l10n                         # generate translations
 flutter run
