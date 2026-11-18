@@ -15,13 +15,13 @@ class NeutralThemeColors implements AppColors {
   @override final Color lightTextMuted = Color(0xFF9E9E9E);
   @override final Color lightBorder = Color(0xFFE0E0E0);
 
-  // Dark Palette
-  @override final Color darkBackground = Color(0xFF121212);
-  @override final Color darkSurface = Color.fromARGB(255, 20, 20, 20);
+  // Dark Palette (Updated for high contrast)
+  @override final Color darkBackground = Color(0xFF0E0E0E);
+  @override final Color darkSurface = Color.fromARGB(255, 24, 24, 24); // Lifted surface for cards
   @override final Color darkTextPrimary = Color.fromARGB(255, 245, 245, 245);
-  @override final Color darkTextSecondary = Color.fromARGB(255, 158, 158, 158);
-  @override final Color darkTextMuted = Color.fromARGB(255, 117, 117, 117);
-  @override final Color darkBorder = Color.fromARGB(255, 45, 45, 45);
+  @override final Color darkTextSecondary = Color.fromARGB(255, 170, 170, 170); // Enhanced secondary text
+  @override final Color darkTextMuted = Color.fromARGB(255, 128, 128, 128);
+  @override final Color darkBorder = Color.fromARGB(255, 58, 58, 58); // Clearer border outline
 
   // Status Colors (Shared)
   @override final Color error = Color(0xFFEF4444);

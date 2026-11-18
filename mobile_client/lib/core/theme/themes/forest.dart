@@ -15,13 +15,13 @@ class ForestThemeColors implements AppColors {
   @override final Color lightTextMuted = Color(0xFF9DB3A5);
   @override final Color lightBorder = Color(0xFFD3E4D9);
 
-  // Dark Palette
-  @override final Color darkBackground = Color(0xFF0B140F);
-  @override final Color darkSurface = Color.fromARGB(255, 16, 27, 20);
+  // Dark Palette (Updated for high contrast)
+  @override final Color darkBackground = Color(0xFF07100B);
+  @override final Color darkSurface = Color.fromARGB(255, 16, 29, 21); // Distinct surface elevation
   @override final Color darkTextPrimary = Color.fromARGB(255, 232, 244, 236);
-  @override final Color darkTextSecondary = Color.fromARGB(255, 160, 184, 168);
-  @override final Color darkTextMuted = Color.fromARGB(255, 110, 134, 118);
-  @override final Color darkBorder = Color.fromARGB(255, 36, 58, 44);
+  @override final Color darkTextSecondary = Color.fromARGB(255, 170, 194, 178); // Brighter readability
+  @override final Color darkTextMuted = Color.fromARGB(255, 120, 146, 128);
+  @override final Color darkBorder = Color.fromARGB(255, 46, 74, 56); // Sharper outline boundaries
 
   // Status Colors (Shared)
   @override final Color error = Color(0xFFEF5350);

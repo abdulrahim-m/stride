@@ -15,12 +15,12 @@ class AquaThemeColors implements AppColors {
   @override final Color lightTextMuted = Color(0xFF94A3B8);
   @override final Color lightBorder = Color(0xFFBAE6FD); // Defined aqua-tinted border
 
-  // Dark Palette
-  @override final Color darkBackground = Color(0xFF0F172A); // Deep sea slate
-  @override final Color darkSurface = Color.fromARGB(255, 15, 23, 42);
+  // Dark Palette (Updated for high contrast & clear surface distinction)
+  @override final Color darkBackground = Color(0xFF0B1120); // Deeper sea slate base
+  @override final Color darkSurface = Color.fromARGB(255, 18, 28, 48); // Lifted surface color for clear card/badge distinction
   @override final Color darkTextPrimary = Color.fromARGB(255, 241, 245, 249);
-  @override final Color darkTextSecondary = Color.fromARGB(255, 148, 163, 184);
-  @override final Color darkTextMuted = Color.fromARGB(255, 100, 116, 139);
+  @override final Color darkTextSecondary = Color.fromARGB(255, 168, 182, 204); // Brighter secondary text
+  @override final Color darkTextMuted = Color.fromARGB(255, 115, 132, 158);
   @override final Color darkBorder = Color.fromARGB(255, 51, 65, 85);
 
   // Status Colors (Shared)
