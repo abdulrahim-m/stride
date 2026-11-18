@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+use chrono::Utc;
 use sqlx::{Row, SqlitePool};
 
 use crate::utils::app_error::Result;
@@ -37,11 +38,21 @@ impl Settings {
     }
 
     pub async fn setup_defaults(pool: &SqlitePool) -> Result<()> {
+        let now = Utc::now().to_string();
+
         let data = [
-            ("language", "default"),
-            ("theme", "default"),
-            ("reset_time", "0"),
-            ("font_size", "14")
+            ("language", "default"),    // default | en | ar | ...
+            ("theme", "default"),       // default | rust | aqua | neutral | ...
+            ("theme_color", "default"), // default | light | dark
+            ("reset_time", "0"),        // 0-23 (hours of the day)
+            ("font_size", "14"),        // 12-24
+
+            ("sync", "false"),             // false | true
+            ("cloud-backup", "false"),     // false | true
+            ("encrypted_backup", "false"), // false | true
+            ("backup_interval", "0"), // 0 1-7 (days)
+
+            ("last_backup", &now),     // ISO 8601
         ];
 
         let mut query_builder = sqlx::QueryBuilder::new(

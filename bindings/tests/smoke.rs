@@ -183,7 +183,7 @@ async fn settings_persist_across_reopen() {
     let path = dir.path().to_str().unwrap().to_string();
 
     let core = NoteCore::open(path.clone()).await.unwrap();
-    assert_eq!(core.get_setting("theme".into()).await.unwrap(), None);
+    assert_eq!(core.get_setting("theme".into()).await.unwrap(), Some("default".to_string()));
     core.set_setting("theme".into(), "dark".into()).await.unwrap();
     core.close().await;
 

@@ -2,26 +2,46 @@ use std::sync::Arc;
 
 use sqlx::{SqlitePool};
 
-use crate::{models::{notes::{notes::{Note, NoteGroup}, ui_notes::{UINote, UINoteGroup, UINoteListItem}}, repo::{ListRequest, Model, SearchParams}, tags::{tags::Tag, ui_tags::UITag}}, utils::app_error::{AppError, ErrorType, Result}};
+use crate::{
+    models::{
+        notes::{
+            notes::{Note, NoteGroup}, 
+            ui_notes::{UINote, UINoteGroup, UINoteListItem}
+        }, 
+        repo::{ListRequest, Model, SearchParams}, 
+        tags::{tags::Tag, ui_tags::UITag}
+    }, 
+    services::images::{ImageOwner, ImageService},
+    utils::app_error::{
+        AppError, ErrorType, Result
+    }
+};
+
 
 #[derive(Debug, Clone)]
 pub struct NotesService {
     pool: Arc<SqlitePool>,
+    images: Option<ImageService>,
 }
 
 impl NotesService {
     pub async  fn new(pool: Arc<SqlitePool>) -> Result<Self> {
-        let service = NotesService { pool: pool };
+       let service = NotesService { pool: pool, images: None };
         service.refrech().await?;
         Ok(service)
     }
-
+    
     pub async fn refrech(&self) -> Result<()> {
         Ok(())
     }
-
+    
     // Get
-
+    
+    pub fn with_images(mut self, images: ImageService) -> Self {
+        self.images = Some(images);
+        self
+    }
+    
     pub async fn get_note(&self, id: i64) -> Result<UINote> {
         let item = Note::get_by_id(&self.pool, id).await?;
         self.map_note(item).await
@@ -107,6 +127,16 @@ impl NotesService {
         Ok(())
     }
 
+    /// Saves a new group order: the i-th id gets `placing = i`.
+    pub async fn reorder_note_groups(&self, ordered_ids: Vec<i64>) -> Result<()> {
+        for (i, id) in ordered_ids.iter().enumerate() {
+            let mut group = NoteGroup::get_by_id(&self.pool, *id).await?;
+            group.placing = i as i64;
+            group.update(&self.pool).await?;
+        }
+        Ok(())
+    }
+
     // Delete
 
     pub async fn delete_group(&self, id: i64) -> Result<()> {
@@ -123,6 +153,9 @@ impl NotesService {
 
     pub async fn delete_note(&self, id: i64) -> Result<()> {
         Note::delete(&self.pool, id).await?;
+        if let Some(images) = &self.images {
+            let _ = images.delete_all(ImageOwner::Note, id).await;
+        }
         Ok(())
     }
 

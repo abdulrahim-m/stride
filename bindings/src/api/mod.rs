@@ -3,18 +3,21 @@ pub mod short_notes;
 pub mod short_tasks;
 pub mod tags;
 pub mod tasks;
+pub mod images;
 
 use std::collections::HashMap;
 use std::sync::Arc;
 
 use flutter_rust_bridge::frb;
 use notecore::models::settings::Settings;
+use notecore::services::images::ImageService;
 use notecore::services::{
     database_manager::DatabaseManager, notes::NotesService, short_notes::ShortNotesService,
     short_tasks::ShortTasksService, tags_service::TagsService, tasks::TasksService,
 };
 use sqlx::SqlitePool;
 
+use crate::api::images::ImagesApi;
 use crate::error::ApiError;
 
 use self::{
@@ -30,6 +33,7 @@ pub fn init_app() {
 #[frb(opaque)]
 pub struct NoteCore {
     pool: Arc<SqlitePool>,
+    images: ImageService,
     notes: NotesService,
     short_notes: ShortNotesService,
     tasks: TasksService,
@@ -39,14 +43,16 @@ pub struct NoteCore {
 
 impl NoteCore {
     pub async fn open(base_path: String) -> Result<NoteCore, ApiError> {
+        let images = ImageService::new(&base_path)?;
         let pool = Arc::new(DatabaseManager::init(base_path).await?);
 
         Ok(NoteCore {
-            notes: NotesService::new(pool.clone()).await?,
+            notes: NotesService::new(pool.clone()).await?.with_images(images.clone()),  // CHANGED
             short_notes: ShortNotesService::new(pool.clone()).await?,
             tasks: TasksService::new(pool.clone()).await?,
             short_tasks: ShortTasksService::new(pool.clone()).await?,
             tags: TagsService::new(pool.clone()).await?,
+            images,
             pool,
         })
     }
@@ -90,6 +96,11 @@ impl NoteCore {
     #[frb(sync)]
     pub fn tags(&self) -> TagsApi {
         TagsApi::new(self.tags.clone())
+    }
+
+    #[frb(sync)]
+    pub fn images(&self) -> ImagesApi {
+        ImagesApi::new(self.images.clone())
     }
 
     // --- Settings ---

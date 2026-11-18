@@ -100,6 +100,11 @@ impl NotesApi {
         Ok(self.service.update_note_group(id, name).await?)
     }
 
+    /// Saves the order of the groups: `ids` from first to last.
+    pub async fn reorder_note_groups(&self, ids: Vec<i64>) -> Result<(), ApiError> {
+        self.service.reorder_note_groups(ids).await.map_err(ApiError::from)
+    }
+
     // --- Delete ---
 
     /// Fails with `ApiErrorKind::Forbidden` if the group still contains notes.

@@ -44,6 +44,9 @@ abstract class NotesApi implements RustOpaqueInterface {
 
   Future<void> refresh();
 
+  /// Saves the order of the groups: `ids` from first to last.
+  Future<void> reorderNoteGroups({required Int64List ids});
+
   Future<List<NoteListItemDto>> search({
     required SearchParamsDto params,
     required ListRequestDto list,

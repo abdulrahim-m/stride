@@ -3,6 +3,7 @@
 
 // ignore_for_file: invalid_use_of_internal_member, unused_import, unnecessary_import
 
+import 'api/images.dart';
 import 'api/notes.dart';
 import 'api/short_notes.dart';
 import 'api/short_tasks.dart';
@@ -20,6 +21,8 @@ abstract class NoteCore implements RustOpaqueInterface {
   Future<String?> getSetting({required String key});
 
   Future<Map<String, String>> getSettings();
+
+  ImagesApi images();
 
   NotesApi notes();
 
