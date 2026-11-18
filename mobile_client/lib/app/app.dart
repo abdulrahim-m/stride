@@ -22,9 +22,12 @@ class MyApp extends StatelessWidget {
           title: 'Stride',
           theme: AppTheme.getLightTheme(colors),
           darkTheme: AppTheme.getDarkTheme(colors),
-          themeMode: ThemeMode.system,
+          themeMode: settings.themeMode,
+          themeAnimationDuration: const Duration(milliseconds: 600),
+          themeAnimationCurve: Curves.easeInOutCubic,
           routerConfig: appRouter,
 
+          // null = follow the device language.
           locale: settings.locale,
           localizationsDelegates: const [
             AppLocalizations.delegate,
@@ -43,6 +46,7 @@ class MyApp extends StatelessWidget {
             return const Locale('en');
           },
 
+          // Font size setting, on top of the device's own text scale.
           builder: (context, child) {
             final mq = MediaQuery.of(context);
             final system = mq.textScaler.scale(14) / 14;

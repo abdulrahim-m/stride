@@ -134,6 +134,24 @@ abstract class AppLocalizations {
   /// **'Filters'**
   String get general_filters;
 
+  /// No description provided for @menu_more.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get menu_more;
+
+  /// No description provided for @menu_dark_mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark mode'**
+  String get menu_dark_mode;
+
+  /// No description provided for @menu_light_mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Light mode'**
+  String get menu_light_mode;
+
   /// No description provided for @notes_all.
   ///
   /// In en, this message translates to:
@@ -1177,6 +1195,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reset'**
   String get settings_reset_action;
+
+  /// No description provided for @settings_theme_mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme mode'**
+  String get settings_theme_mode;
+
+  /// No description provided for @settings_theme_mode_default.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow device'**
+  String get settings_theme_mode_default;
+
+  /// No description provided for @settings_theme_mode_light.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get settings_theme_mode_light;
+
+  /// No description provided for @settings_theme_mode_dark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get settings_theme_mode_dark;
 
   /// No description provided for @guide_tooltip.
   ///

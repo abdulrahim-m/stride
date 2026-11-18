@@ -28,6 +28,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get general_filters => 'التصفية';
 
   @override
+  String get menu_more => 'المزيد';
+
+  @override
+  String get menu_dark_mode => 'الوضع الداكن';
+
+  @override
+  String get menu_light_mode => 'الوضع الفاتح';
+
+  @override
   String get notes_all => 'الكل';
 
   @override
@@ -649,6 +658,18 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get settings_reset_action => 'استعادة';
+
+  @override
+  String get settings_theme_mode => 'وضع المظهر';
+
+  @override
+  String get settings_theme_mode_default => 'اتباع الجهاز';
+
+  @override
+  String get settings_theme_mode_light => 'فاتح';
+
+  @override
+  String get settings_theme_mode_dark => 'داكن';
 
   @override
   String get guide_tooltip => 'دليل الصفحة';

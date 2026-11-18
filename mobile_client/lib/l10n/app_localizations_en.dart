@@ -28,6 +28,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get general_filters => 'Filters';
 
   @override
+  String get menu_more => 'More';
+
+  @override
+  String get menu_dark_mode => 'Dark mode';
+
+  @override
+  String get menu_light_mode => 'Light mode';
+
+  @override
   String get notes_all => 'All';
 
   @override
@@ -650,6 +659,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settings_reset_action => 'Reset';
+
+  @override
+  String get settings_theme_mode => 'Theme mode';
+
+  @override
+  String get settings_theme_mode_default => 'Follow device';
+
+  @override
+  String get settings_theme_mode_light => 'Light';
+
+  @override
+  String get settings_theme_mode_dark => 'Dark';
 
   @override
   String get guide_tooltip => 'Page guide';

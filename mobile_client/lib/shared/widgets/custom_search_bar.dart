@@ -21,6 +21,7 @@ class CustomSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 10, 12, 0),
@@ -36,7 +37,10 @@ class CustomSearchBar extends StatelessWidget {
                 decoration: InputDecoration(
                   hintText: hint,
                   isDense: true,
-                  prefixIcon: const Icon(Icons.search),
+                  filled: true,
+                  // Explicitly bind fill color to theme so it interpolates smoothly
+                  fillColor: colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),
+                  prefixIcon: Icon(Icons.search, color: colorScheme.onSurfaceVariant),
                   suffixIcon: ValueListenableBuilder<TextEditingValue>(
                     valueListenable: controller,
                     builder: (_, value, _) => value.text.isEmpty
@@ -48,6 +52,24 @@ class CustomSearchBar extends StatelessWidget {
                               onChanged('');
                             },
                           ),
+                  ),
+                  // Clean borders that respect the theme color scheme
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(
+                      color: colorScheme.outlineVariant.withValues(alpha: 0.5),
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(
+                      color: colorScheme.primary,
+                      width: 1.5,
+                    ),
                   ),
                 ),
               ),

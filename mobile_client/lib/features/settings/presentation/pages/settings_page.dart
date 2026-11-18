@@ -70,6 +70,17 @@ class _SettingsPageState extends State<SettingsPage> {
             SettingsSection(
               title: l10n.settings_appearance,
               children: [
+                ChoiceSettingTile<String>(
+                  setting: AppSettings.themeColor,
+                  title: l10n.settings_theme_mode,
+                  icon: Icons.brightness_6_outlined,
+                  options: AppSettings.themeColorOptions,
+                  labelOf: (context, v) => switch (v) {
+                    'light' => l10n.settings_theme_mode_light,
+                    'dark' => l10n.settings_theme_mode_dark,
+                    _ => l10n.settings_theme_mode_default,
+                  },
+                ),
                 ThemeSettingTile(
                   setting: AppSettings.theme,
                   title: l10n.settings_theme,

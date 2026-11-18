@@ -8,6 +8,9 @@
   "shell_navBar_checklist_view": "Checklists",
 
   "general_filters": "Filters",
+  "menu_more": "More",
+  "menu_dark_mode": "Dark mode",
+  "menu_light_mode": "Light mode",
 
 
 
@@ -310,6 +313,10 @@
   "settings_reset_title": "Reset settings?",
   "settings_reset_body": "All settings return to their default values.",
   "settings_reset_action": "Reset",
+  "settings_theme_mode": "Theme mode",
+  "settings_theme_mode_default": "Follow device",
+  "settings_theme_mode_light": "Light",
+  "settings_theme_mode_dark": "Dark",
 
 
 

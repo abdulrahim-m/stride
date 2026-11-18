@@ -8,6 +8,9 @@
   "shell_navBar_checklist_view": "القوائم",
 
   "general_filters": "التصفية",
+  "menu_more": "المزيد",
+  "menu_dark_mode": "الوضع الداكن",
+  "menu_light_mode": "الوضع الفاتح",
 
 
 
@@ -306,7 +309,10 @@
   "settings_reset_title": "استعادة الإعدادات؟",
   "settings_reset_body": "ستعود كل الإعدادات إلى قيمها الافتراضية.",
   "settings_reset_action": "استعادة",
-
+  "settings_theme_mode": "وضع المظهر",
+  "settings_theme_mode_default": "اتباع الجهاز",
+  "settings_theme_mode_light": "فاتح",
+  "settings_theme_mode_dark": "داكن",
 
 
 
