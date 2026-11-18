@@ -198,6 +198,72 @@ class AppLocalizationsEn extends AppLocalizations {
   String get note_outdent => 'Outdent';
 
   @override
+  String get notes_reorder_hint =>
+      'Hold and drag the handle to change the order.';
+
+  @override
+  String get note_bold => 'Bold';
+
+  @override
+  String get note_italic => 'Italic';
+
+  @override
+  String get note_strikethrough => 'Strikethrough';
+
+  @override
+  String get note_code => 'Code';
+
+  @override
+  String get note_quote => 'Quote';
+
+  @override
+  String get note_numbered_list => 'Numbered list';
+
+  @override
+  String get note_link => 'Link';
+
+  @override
+  String get note_add_image => 'Add image';
+
+  @override
+  String get note_image_gallery => 'Choose from gallery';
+
+  @override
+  String get note_image_camera => 'Take a photo';
+
+  @override
+  String get note_image_from_link => 'From a link';
+
+  @override
+  String get note_image_link_hint => 'https://example.com/picture.jpg';
+
+  @override
+  String get note_image_remove => 'Remove image';
+
+  @override
+  String get note_image_failed => 'Couldn\'t add the image';
+
+  @override
+  String get note_view_mode => 'Read mode';
+
+  @override
+  String get note_edit_mode => 'Edit mode';
+
+  @override
+  String get note_link_leave_title => 'Leave Stride?';
+
+  @override
+  String note_link_leave_body(String url) {
+    return 'This link will open in your browser:\n$url';
+  }
+
+  @override
+  String get note_link_open => 'Open';
+
+  @override
+  String get note_link_failed => 'Couldn\'t open the link';
+
+  @override
   String get thoughts_search_hint => 'Search thoughts';
 
   @override

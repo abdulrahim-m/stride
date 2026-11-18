@@ -2,8 +2,10 @@ import 'dart:async';
 import 'package:flutter_rust_bridge/flutter_rust_bridge.dart'; 
 
 import 'package:flutter/foundation.dart';
+import 'package:mobile_client/core/rust/api/images.dart';
 import 'package:mobile_client/core/rust/api/notes.dart';
 import 'package:mobile_client/core/rust/api/tags.dart';
+import 'package:mobile_client/core/rust/dto/image.dart';
 import 'package:mobile_client/core/rust/dto/note.dart';
 import 'package:mobile_client/core/rust/dto/tag.dart';
 import 'package:mobile_client/core/rust/error.dart';
@@ -18,8 +20,10 @@ class NoteEditorController extends ChangeNotifier {
     required this.noteId,
     required NotesApi notes,
     required TagsApi tags,
+    required ImagesApi images,
   }) : _notesApi = notes,
-       _tagsApi = tags;
+       _tagsApi = tags,
+       _imagesApi = images;
 
   static const _placeholderTitle = 'untitled';
   static const _debounceDelay = Duration(milliseconds: 800);
@@ -27,6 +31,7 @@ class NoteEditorController extends ChangeNotifier {
   final int noteId;
   final NotesApi _notesApi;
   final TagsApi _tagsApi;
+  final ImagesApi _imagesApi;
 
   void Function(String message)? onError;
 
@@ -38,6 +43,7 @@ class NoteEditorController extends ChangeNotifier {
   List<TagDto> _tags = [];
   List<NoteGroupDto> _groups = [];
   List<TagDto> _allTags = [];
+  List<ImageDto> _images = [];
 
   String _initialTitle = '';
   String _initialContent = '';
@@ -61,6 +67,9 @@ class NoteEditorController extends ChangeNotifier {
   List<TagDto> get tags => _tags;
   List<TagDto> get allTags => _allTags;
   List<NoteGroupDto> get groups => _groups;
+
+  /// The note's images (files, then links), kept by the core.
+  List<ImageDto> get images => _images;
   SaveStatus get status => _status;
 
   String get initialTitle => _initialTitle;
@@ -98,6 +107,10 @@ class NoteEditorController extends ChangeNotifier {
         groups.sort((a, b) => a.placing.compareTo(b.placing));
         _groups = groups;
         _allTags = await _tagsApi.getList();
+        _images = await _imagesApi.list(
+          owner: ImageOwnerDto.note,
+          ownerId: noteId,
+        );
       } catch (e) {
         _report(e);
       }
@@ -206,6 +219,61 @@ class NoteEditorController extends ChangeNotifier {
     });
     if (ok) _notify();
     return created;
+  }
+
+  // --------------------------------------------------------------- images
+  Future<void> addImagesFromPaths(List<String> paths) async {
+    await _guard(() async {
+      for (final path in paths) {
+        await _imagesApi.addFromPath(
+          owner: ImageOwnerDto.note,
+          ownerId: noteId,
+          path: path,
+        );
+      }
+    });
+    // Reload even after a failure, earlier files of the batch may be in.
+    await _reloadImages();
+  }
+
+  Future<void> addImageLink(String url) async {
+    final ok = await _guard(
+      () => _imagesApi.addLink(
+        owner: ImageOwnerDto.note,
+        ownerId: noteId,
+        url: url,
+      ),
+    );
+    if (ok) await _reloadImages();
+  }
+
+  Future<void> removeImage(ImageDto image) async {
+    final ok = await _guard(
+      () => image.kind == ImageKindDto.link
+          ? _imagesApi.removeLink(
+              owner: ImageOwnerDto.note,
+              ownerId: noteId,
+              url: image.value,
+            )
+          : _imagesApi.removeImage(
+              owner: ImageOwnerDto.note,
+              ownerId: noteId,
+              name: image.name,
+            ),
+    );
+    if (ok) await _reloadImages();
+  }
+
+  Future<void> _reloadImages() async {
+    try {
+      _images = await _imagesApi.list(
+        owner: ImageOwnerDto.note,
+        ownerId: noteId,
+      );
+      _notify();
+    } catch (e) {
+      _report(e);
+    }
   }
 
   // -------------------------------------------------------------- helpers

@@ -158,6 +158,22 @@ class NotesController extends PagedListController<NoteListItemDto> {
     if (ok) await loadGroups();
   }
 
+  /// Moves a group in the manager's list and saves the new order (the core
+  /// rewrites every group's `placing`). Shows the new order at once and
+  /// re-reads from the core afterwards, which also undoes it if saving failed.
+  Future<void> reorderGroups(int oldIndex, int newIndex) async {
+    if (newIndex > oldIndex) newIndex -= 1; // ReorderableListView semantics
+    if (oldIndex == newIndex || oldIndex < 0 || oldIndex >= _groups.length) {
+      return;
+    }
+    final list = [..._groups];
+    list.insert(newIndex, list.removeAt(oldIndex));
+    _groups = list;
+    notifyListeners();
+    await guard(() => _api.reorderNoteGroups(ids: _ids(list.map((g) => g.id))));
+    await loadGroups();
+  }
+
   /// The core refuses with 'Forbidden' if the group still contains notes, the
   /// message is surfaced through [onError].
   Future<void> deleteGroup(int id) async {

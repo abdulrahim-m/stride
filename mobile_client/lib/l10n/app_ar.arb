@@ -74,6 +74,35 @@
   "note_indent": "زيادة المسافة البادئة",
   "note_outdent": "تقليل المسافة البادئة",
 
+  "notes_reorder_hint": "اضغط مطولاً على المقبض واسحب لتغيير الترتيب.",
+  "note_bold": "عريض",
+  "note_italic": "مائل",
+  "note_strikethrough": "يتوسطه خط",
+  "note_code": "شيفرة",
+  "note_quote": "اقتباس",
+  "note_numbered_list": "قائمة مرقمة",
+  "note_link": "رابط",
+  "note_add_image": "إضافة صورة",
+  "note_image_gallery": "اختيار من المعرض",
+  "note_image_camera": "التقاط صورة",
+  "note_image_from_link": "من رابط",
+  "note_image_link_hint": "https://example.com/picture.jpg",
+  "note_image_remove": "إزالة الصورة",
+  "note_image_failed": "تعذّرت إضافة الصورة",
+  "note_view_mode": "وضع القراءة",
+  "note_edit_mode": "وضع التحرير",
+  "note_link_leave_title": "مغادرة Stride؟",
+  "note_link_leave_body": "سيُفتح هذا الرابط في المتصفح:\n{url}",
+  "@note_link_leave_body": {
+    "placeholders": {
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "note_link_open": "فتح",
+  "note_link_failed": "تعذّر فتح الرابط",
+
 
 
 

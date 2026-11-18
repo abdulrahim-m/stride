@@ -452,6 +452,132 @@ abstract class AppLocalizations {
   /// **'Outdent'**
   String get note_outdent;
 
+  /// No description provided for @notes_reorder_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold and drag the handle to change the order.'**
+  String get notes_reorder_hint;
+
+  /// No description provided for @note_bold.
+  ///
+  /// In en, this message translates to:
+  /// **'Bold'**
+  String get note_bold;
+
+  /// No description provided for @note_italic.
+  ///
+  /// In en, this message translates to:
+  /// **'Italic'**
+  String get note_italic;
+
+  /// No description provided for @note_strikethrough.
+  ///
+  /// In en, this message translates to:
+  /// **'Strikethrough'**
+  String get note_strikethrough;
+
+  /// No description provided for @note_code.
+  ///
+  /// In en, this message translates to:
+  /// **'Code'**
+  String get note_code;
+
+  /// No description provided for @note_quote.
+  ///
+  /// In en, this message translates to:
+  /// **'Quote'**
+  String get note_quote;
+
+  /// No description provided for @note_numbered_list.
+  ///
+  /// In en, this message translates to:
+  /// **'Numbered list'**
+  String get note_numbered_list;
+
+  /// No description provided for @note_link.
+  ///
+  /// In en, this message translates to:
+  /// **'Link'**
+  String get note_link;
+
+  /// No description provided for @note_add_image.
+  ///
+  /// In en, this message translates to:
+  /// **'Add image'**
+  String get note_add_image;
+
+  /// No description provided for @note_image_gallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from gallery'**
+  String get note_image_gallery;
+
+  /// No description provided for @note_image_camera.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo'**
+  String get note_image_camera;
+
+  /// No description provided for @note_image_from_link.
+  ///
+  /// In en, this message translates to:
+  /// **'From a link'**
+  String get note_image_from_link;
+
+  /// No description provided for @note_image_link_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'https://example.com/picture.jpg'**
+  String get note_image_link_hint;
+
+  /// No description provided for @note_image_remove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove image'**
+  String get note_image_remove;
+
+  /// No description provided for @note_image_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t add the image'**
+  String get note_image_failed;
+
+  /// No description provided for @note_view_mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Read mode'**
+  String get note_view_mode;
+
+  /// No description provided for @note_edit_mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit mode'**
+  String get note_edit_mode;
+
+  /// No description provided for @note_link_leave_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave Stride?'**
+  String get note_link_leave_title;
+
+  /// No description provided for @note_link_leave_body.
+  ///
+  /// In en, this message translates to:
+  /// **'This link will open in your browser:\n{url}'**
+  String note_link_leave_body(String url);
+
+  /// No description provided for @note_link_open.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get note_link_open;
+
+  /// No description provided for @note_link_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t open the link'**
+  String get note_link_failed;
+
   /// No description provided for @thoughts_search_hint.
   ///
   /// In en, this message translates to:

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_client/app/app.dart';
 import 'package:mobile_client/core/di/injection.dart';
 import 'package:mobile_client/core/rust/api.dart';
+import 'package:mobile_client/core/rust/api/images.dart';
 import 'package:mobile_client/core/rust/api/notes.dart';
 import 'package:mobile_client/core/rust/api/short_notes.dart';
 import 'package:mobile_client/core/rust/api/short_tasks.dart';
@@ -27,12 +28,14 @@ void main() async {
     getIt.registerSingleton<SearchFilters>(SearchFilters(core.tags()));
     getIt.registerSingleton<ShortTasksApi>(core.shortTasks());
     getIt.registerSingleton<TasksApi>(core.tasks());
+    getIt.registerSingleton<ImagesApi>(core.images());
 
     final settings = SettingsController(core);
     await settings.load();
     getIt.registerSingleton<SettingsController>(settings);
   } on ApiError catch (e) {
     print("======================== An error has occurred while initializing: ${e.message}");
+    
   }
 
   setupLocator();

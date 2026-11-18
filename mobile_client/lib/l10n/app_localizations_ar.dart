@@ -198,6 +198,72 @@ class AppLocalizationsAr extends AppLocalizations {
   String get note_outdent => 'تقليل المسافة البادئة';
 
   @override
+  String get notes_reorder_hint =>
+      'اضغط مطولاً على المقبض واسحب لتغيير الترتيب.';
+
+  @override
+  String get note_bold => 'عريض';
+
+  @override
+  String get note_italic => 'مائل';
+
+  @override
+  String get note_strikethrough => 'يتوسطه خط';
+
+  @override
+  String get note_code => 'شيفرة';
+
+  @override
+  String get note_quote => 'اقتباس';
+
+  @override
+  String get note_numbered_list => 'قائمة مرقمة';
+
+  @override
+  String get note_link => 'رابط';
+
+  @override
+  String get note_add_image => 'إضافة صورة';
+
+  @override
+  String get note_image_gallery => 'اختيار من المعرض';
+
+  @override
+  String get note_image_camera => 'التقاط صورة';
+
+  @override
+  String get note_image_from_link => 'من رابط';
+
+  @override
+  String get note_image_link_hint => 'https://example.com/picture.jpg';
+
+  @override
+  String get note_image_remove => 'إزالة الصورة';
+
+  @override
+  String get note_image_failed => 'تعذّرت إضافة الصورة';
+
+  @override
+  String get note_view_mode => 'وضع القراءة';
+
+  @override
+  String get note_edit_mode => 'وضع التحرير';
+
+  @override
+  String get note_link_leave_title => 'مغادرة Stride؟';
+
+  @override
+  String note_link_leave_body(String url) {
+    return 'سيُفتح هذا الرابط في المتصفح:\n$url';
+  }
+
+  @override
+  String get note_link_open => 'فتح';
+
+  @override
+  String get note_link_failed => 'تعذّر فتح الرابط';
+
+  @override
   String get thoughts_search_hint => 'ابحث في الأفكار';
 
   @override

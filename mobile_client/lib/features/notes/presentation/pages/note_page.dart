@@ -5,7 +5,12 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_client/core/di/injection.dart';
 import 'package:mobile_client/core/rust/api.dart';
+import 'package:mobile_client/core/rust/dto/image.dart';
 import 'package:mobile_client/features/notes/presentation/controllers/note_editor_controller.dart';
+import 'package:mobile_client/features/notes/presentation/dialogs/add_image_sheet.dart';
+import 'package:mobile_client/features/notes/presentation/pages/image_viewer_page.dart';
+import 'package:mobile_client/features/notes/presentation/widgets/markdown_view.dart';
+import 'package:mobile_client/features/notes/presentation/widgets/note_image_strip.dart';
 import 'package:mobile_client/shared/dialogs/dialogs.dart';
 import 'package:mobile_client/features/notes/presentation/dialogs/group_picker_sheet.dart';
 import 'package:mobile_client/shared/widgets/tag_picker_sheet.dart';
@@ -38,6 +43,9 @@ class _NotePageState extends State<NotePage> with WidgetsBindingObserver {
   String _lastTitle = '';
   String _lastContent = '';
 
+  /// Read-only, formatted view (the eye / pen button).
+  bool _viewing = false;
+
   /// Direction of each editor from how its text starts, null = use the app's.
   TextDirection? _titleDir;
   TextDirection? _contentDir;
@@ -51,6 +59,7 @@ class _NotePageState extends State<NotePage> with WidgetsBindingObserver {
       noteId: widget.noteId,
       notes: core.notes(),
       tags: core.tags(),
+      images: core.images(),
     );
     _ed.onError = _showMessage;
     _load();
@@ -149,16 +158,50 @@ class _NotePageState extends State<NotePage> with WidgetsBindingObserver {
     if (await _ed.delete() && mounted) context.pop();
   }
 
-  void _share() {
+  Future<void> _share() async {
     final title = _titleCtl.text.trim();
     final body = _contentCtl.markdown.trim();
-    if (title.isEmpty && body.isEmpty) return;
+    final images = _ed.images;
+    if (title.isEmpty && body.isEmpty && images.isEmpty) return;
+    final files = [
+      for (final i in images.where((i) => i.kind == ImageKindDto.file))
+        XFile(i.value),
+    ];
+    final links = images
+        .where((i) => i.kind == ImageKindDto.link)
+        .map((i) => i.value);
+    final text = [
+      if (title.isNotEmpty) title,
+      if (body.isNotEmpty) body,
+      ...links,
+    ].join('\n\n');
     SharePlus.instance.share(
       ShareParams(
-        text: title.isEmpty ? body : (body.isEmpty ? title : '$title\n\n$body'),
+        text: text.isEmpty ? null : text,
         subject: title.isEmpty ? null : title,
+        files: files.isEmpty ? null : files,
       ),
     );
+  }
+
+  // -------------------------------------------------------------- images
+  Future<void> _addImages() async {
+    final pick = await pickNoteImages(context);
+    if (pick == null || pick.isEmpty || !mounted) return;
+    if (pick.paths.isNotEmpty) await _ed.addImagesFromPaths(pick.paths);
+    if (pick.link != null && pick.link!.isNotEmpty) {
+      await _ed.addImageLink(pick.link!);
+    }
+  }
+
+  // ---------------------------------------------------------- view / edit
+  Future<void> _toggleViewing() async {
+    if (!_viewing) {
+      FocusManager.instance.primaryFocus?.unfocus();
+      await _ed.flush(); // the view shows what is saved
+      if (!mounted) return;
+    }
+    setState(() => _viewing = !_viewing);
   }
 
   Future<void> _pickGroup() async {
@@ -217,6 +260,17 @@ class _NotePageState extends State<NotePage> with WidgetsBindingObserver {
               actions: _ready
                   ? [
                       IconButton(
+                        tooltip: _viewing
+                            ? l10n.note_edit_mode
+                            : l10n.note_view_mode,
+                        onPressed: _toggleViewing,
+                        icon: Icon(
+                          _viewing
+                              ? Icons.edit_outlined
+                              : Icons.visibility_outlined,
+                        ),
+                      ),
+                      IconButton(
                         tooltip: l10n.note_share,
                         onPressed: _share,
                         icon: const Icon(Icons.share_outlined),
@@ -258,6 +312,10 @@ class _NotePageState extends State<NotePage> with WidgetsBindingObserver {
       color: cs.onSurface,
     );
 
+    if (_viewing) {
+      return _buildViewer(l10n, titleStyle, bodyStyle, titleDirection, contentDirection);
+    }
+
     return Column(
       children: [
         Expanded(
@@ -272,7 +330,7 @@ class _NotePageState extends State<NotePage> with WidgetsBindingObserver {
               return SingleChildScrollView(
                 keyboardDismissBehavior:
                     ScrollViewKeyboardDismissBehavior.onDrag,
-                padding: const EdgeInsets.fromLTRB(12, 4, 12, 24),
+                padding: const EdgeInsets.fromLTRB(8, 4, 8, 24),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -299,6 +357,15 @@ class _NotePageState extends State<NotePage> with WidgetsBindingObserver {
                     ),
                     const SizedBox(height: 10),
                     _buildMeta(l10n),
+                    if (_ed.images.isNotEmpty) ...[
+                      const SizedBox(height: 12),
+                      NoteImageStrip(
+                        images: _ed.images,
+                        onOpen: (i) =>
+                            ImageViewerPage.open(context, _ed.images, i),
+                        onRemove: (i) => _ed.removeImage(_ed.images[i]),
+                      ),
+                    ],
                     const SizedBox(height: 14),
                     Listener(
                       onPointerDown: (_) =>
@@ -319,9 +386,20 @@ class _NotePageState extends State<NotePage> with WidgetsBindingObserver {
                         decoration: InputDecoration(
                           hintText: l10n.note_content_hint,
                           hintStyle: bodyStyle.copyWith(color: cs.outline),
+                          // No box, no focus highlight: just text on the page.
                           filled: false,
+                          border: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          focusedErrorBorder: InputBorder.none,
+                          hoverColor: Colors.transparent,
                           isDense: true,
-                          contentPadding: EdgeInsets.all(5)
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 4,
+                            vertical: 6,
+                          ),
                         ),
                       ),
                     ),
@@ -338,10 +416,55 @@ class _NotePageState extends State<NotePage> with WidgetsBindingObserver {
                   controller: _contentCtl,
                   undo: _undo,
                   focusNode: _contentFocus,
+                  onAddImage: _addImages,
                 )
               : const SizedBox.shrink(),
         ),
       ],
+    );
+  }
+
+  Widget _buildViewer(
+    AppLocalizations l10n,
+    TextStyle titleStyle,
+    TextStyle bodyStyle,
+    TextDirection titleDirection,
+    TextDirection contentDirection,
+  ) {
+    final title = _titleCtl.text.trim();
+    final images = _ed.images;
+    return SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (title.isNotEmpty)
+            SizedBox(
+              width: double.infinity,
+              child: SelectableText(
+                title,
+                style: titleStyle,
+                textDirection: titleDirection,
+              ),
+            ),
+          const SizedBox(height: 10),
+          _buildMeta(l10n),
+          if (images.isNotEmpty) ...[
+            const SizedBox(height: 14),
+            NoteImageStrip(
+              images: images,
+              onOpen: (i) => ImageViewerPage.open(context, images, i),
+              onRemove: null,
+            ),
+          ],
+          const SizedBox(height: 16),
+          MarkdownView(
+            text: _contentCtl.text,
+            style: bodyStyle,
+            textDirection: contentDirection,
+          ),
+        ],
+      ),
     );
   }
 
@@ -375,6 +498,13 @@ class _NotePageState extends State<NotePage> with WidgetsBindingObserver {
           avatar: const Icon(Icons.add, size: 18),
           label: Text(l10n.notes_add_tag),
           onPressed: _editTags,
+        ),
+        if (!_viewing)
+        ActionChip(
+          visualDensity: VisualDensity.compact,
+          avatar: const Icon(Icons.image_outlined, size: 18),
+          label: Text(l10n.note_add_image),
+          onPressed: _addImages,
         ),
       ],
     );

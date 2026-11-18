@@ -79,6 +79,35 @@
   "note_indent": "Indent",
   "note_outdent": "Outdent",
 
+  "notes_reorder_hint": "Hold and drag the handle to change the order.",
+  "note_bold": "Bold",
+  "note_italic": "Italic",
+  "note_strikethrough": "Strikethrough",
+  "note_code": "Code",
+  "note_quote": "Quote",
+  "note_numbered_list": "Numbered list",
+  "note_link": "Link",
+  "note_add_image": "Add image",
+  "note_image_gallery": "Choose from gallery",
+  "note_image_camera": "Take a photo",
+  "note_image_from_link": "From a link",
+  "note_image_link_hint": "https://example.com/picture.jpg",
+  "note_image_remove": "Remove image",
+  "note_image_failed": "Couldn't add the image",
+  "note_view_mode": "Read mode",
+  "note_edit_mode": "Edit mode",
+  "note_link_leave_title": "Leave Stride?",
+  "note_link_leave_body": "This link will open in your browser:\n{url}",
+  "@note_link_leave_body": {
+    "placeholders": {
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "note_link_open": "Open",
+  "note_link_failed": "Couldn't open the link",
+
 
 
 

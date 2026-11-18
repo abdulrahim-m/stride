@@ -9,7 +9,11 @@ class MarkdownToolbar extends StatelessWidget {
     required this.controller,
     required this.undo,
     required this.focusNode,
+    required this.onAddImage,
   });
+
+  /// Opens the "add image" flow (the page owns the image list).
+  final VoidCallback onAddImage;
 
   final MarkdownTextController controller;
   final UndoHistoryController undo;
@@ -69,6 +73,19 @@ class MarkdownToolbar extends StatelessWidget {
                   ),
                 ),
                 const VerticalDivider(width: 12, indent: 12, endIndent: 12),
+                button(Icons.format_bold, l10n.note_bold, controller.toggleBold),
+                button(
+                  Icons.format_italic,
+                  l10n.note_italic,
+                  controller.toggleItalic,
+                ),
+                button(
+                  Icons.format_strikethrough,
+                  l10n.note_strikethrough,
+                  controller.toggleStrike,
+                ),
+                button(Icons.code, l10n.note_code, controller.toggleCode),
+                const VerticalDivider(width: 12, indent: 12, endIndent: 12),
                 button(Icons.title, l10n.note_heading, controller.toggleHeading),
                 button(
                   Icons.format_list_bulleted,
@@ -76,9 +93,19 @@ class MarkdownToolbar extends StatelessWidget {
                   controller.toggleBullet,
                 ),
                 button(
+                  Icons.format_list_numbered,
+                  l10n.note_numbered_list,
+                  controller.toggleNumbered,
+                ),
+                button(
                   Icons.checklist,
                   l10n.note_checklist,
                   controller.toggleChecklist,
+                ),
+                button(
+                  Icons.format_quote,
+                  l10n.note_quote,
+                  controller.toggleQuote,
                 ),
                 const VerticalDivider(width: 12, indent: 12, endIndent: 12),
                 button(
@@ -90,6 +117,13 @@ class MarkdownToolbar extends StatelessWidget {
                   Icons.format_indent_increase,
                   l10n.note_indent,
                   controller.indent,
+                ),
+                const VerticalDivider(width: 12, indent: 12, endIndent: 12),
+                button(Icons.link, l10n.note_link, controller.insertLink),
+                IconButton(
+                  icon: const Icon(Icons.image_outlined),
+                  tooltip: l10n.note_add_image,
+                  onPressed: onAddImage,
                 ),
               ],
             ),

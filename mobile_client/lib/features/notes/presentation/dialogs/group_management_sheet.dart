@@ -75,16 +75,33 @@ class _GroupManagementSheet extends StatelessWidget {
                         style: theme.textTheme.bodySmall,
                       ),
                     ),
-                  )
-                else
+                  ),
+                if (groups.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsetsDirectional.fromSTEB(20, 0, 20, 4),
+                    child: Text(
+                      l10n.notes_reorder_hint,
+                      style: theme.textTheme.bodySmall,
+                    ),
+                  ),
+                if (groups.isNotEmpty)
                   Flexible(
-                    child: ListView.builder(
+                    child: ReorderableListView.builder(
                       shrinkWrap: true,
+                      buildDefaultDragHandles: false,
                       itemCount: groups.length,
+                      onReorder: controller.reorderGroups,
                       itemBuilder: (context, i) {
                         final g = groups[i];
                         return ListTile(
-                          leading: const Icon(Icons.folder_outlined),
+                          key: ValueKey(g.id),
+                          leading: ReorderableDragStartListener(
+                            index: i,
+                            child: const Padding(
+                              padding: EdgeInsets.all(8),
+                              child: Icon(Icons.drag_handle),
+                            ),
+                          ),
                           title: Text(g.name),
                           subtitle: Text(l10n.notes_count(g.listedNotes)),
                           trailing: Row(
