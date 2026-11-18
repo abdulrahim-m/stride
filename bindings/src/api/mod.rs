@@ -118,6 +118,6 @@ impl NoteCore {
     }
 
     pub async fn reset_settings(&self) -> Result<(), ApiError> {
-        Ok(Settings::setup_defaults(&self.pool).await?)
+        Ok(Settings::reset_defaults(&self.pool).await?)
     }
 }

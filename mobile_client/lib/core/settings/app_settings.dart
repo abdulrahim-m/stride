@@ -1,3 +1,6 @@
+/// One persisted setting: its key in the core's settings table, how its
+/// string value is read / written, a default, and an optional clean-up.
+///
 /// To add a setting: declare it in [AppSettings], then add a tile for it in
 /// the settings page. Nothing else needs to change.
 class Setting<T> {
@@ -40,6 +43,7 @@ int _font(int v) => v < AppSettings.fontSizeMin
     ? AppSettings.fontSizeMin
     : (v > AppSettings.fontSizeMax ? AppSettings.fontSizeMax : v);
 
+/// Every setting of the app, with the keys the core stores them under.
 abstract final class AppSettings {
   /// `default` (device) / `en` / `ar`.
   static const language = Setting<String>(
@@ -57,6 +61,16 @@ abstract final class AppSettings {
     decode: _same,
     encode: _same,
   );
+
+  /// `default` (follow the device) / `light` / `dark`. The menu button only
+  /// ever sets light or dark; `default` is chosen in the settings page.
+  static const themeColor = Setting<String>(
+    key: 'theme_color',
+    defaultValue: 'default',
+    decode: _same,
+    encode: _same,
+  );
+  static const themeColorOptions = ['default', 'light', 'dark'];
 
   /// Hour of the day (0-23) at which tasks reset.
   static const resetHour = Setting<int>(

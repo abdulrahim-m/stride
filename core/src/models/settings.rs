@@ -37,34 +37,43 @@ impl Settings {
         Ok(result.map(|row| row.0))
     }
 
-    pub async fn setup_defaults(pool: &SqlitePool) -> Result<()> {
+    fn get_defaults() -> [(String, String); 10] {
         let now = Utc::now().to_string();
+        [
+            ("language".to_string(), "default".to_string()),    // default | en | ar | ...
+            ("theme".to_string(), "default".to_string()),       // default | rust | aqua | neutral | ...
+            ("theme_color".to_string(), "default".to_string()), // default | light | dark
+            ("reset_time".to_string(), "0".to_string()),        // 0-23 (hours of the day)
+            ("font_size".to_string(), "14".to_string()),        // 12-24
 
-        let data = [
-            ("language", "default"),    // default | en | ar | ...
-            ("theme", "default"),       // default | rust | aqua | neutral | ...
-            ("theme_color", "default"), // default | light | dark
-            ("reset_time", "0"),        // 0-23 (hours of the day)
-            ("font_size", "14"),        // 12-24
+            ("sync".to_string(), "false".to_string()),             // false | true
+            ("cloud-backup".to_string(), "false".to_string()),     // false | true
+            ("encrypted_backup".to_string(), "false".to_string()), // false | true
+            ("backup_interval".to_string(), "0".to_string()), // 0 1-7 (days)
 
-            ("sync", "false"),             // false | true
-            ("cloud-backup", "false"),     // false | true
-            ("encrypted_backup", "false"), // false | true
-            ("backup_interval", "0"), // 0 1-7 (days)
+            ("last_backup".to_string(), now),     // ISO 8601
+        ]
+    }
 
-            ("last_backup", &now),     // ISO 8601
-        ];
+    pub async fn setup_defaults(pool: &SqlitePool) -> Result<()> {
+        Self::write_defaults(pool, "INSERT OR IGNORE").await
+    }
 
-        let mut query_builder = sqlx::QueryBuilder::new(
-            "INSERT OR IGNORE INTO app_settings (key, value) "
-        );
+    /// "Reset settings": every default goes back to its default value, other
+    /// keys are left alone.
+    pub async fn reset_defaults(pool: &SqlitePool) -> Result<()> {
+        Self::write_defaults(pool, "INSERT OR REPLACE").await
+    }
 
-        query_builder.push_values(data, |mut b, (key, value)| {
+    async fn write_defaults(pool: &SqlitePool, verb: &str) -> Result<()> {
+        let mut query_builder =
+            sqlx::QueryBuilder::new(format!("{verb} INTO app_settings (key, value) "));
+
+        query_builder.push_values(Self::get_defaults(), |mut b, (key, value)| {
             b.push_bind(key).push_bind(value);
         });
 
         query_builder.build().execute(pool).await?;
-        
         Ok(())
     }
 }
